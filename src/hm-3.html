@@ -1,0 +1,66 @@
+<style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .image-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .image-container img {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      display: block;
+      margin: 10px 0;
+    }
+    .loading-placeholder {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { background-color: #f0f0f0; }
+      50% { background-color: #e0e0e0; }
+      100% { background-color: #f0f0f0; }
+    }
+  </style>
+</head>
+<body>
+    <a href="./Index.html">Головна</a>
+  <div class="image-container">
+    <img data-src="https://via.placeholder.com/600x400?text=Image+1" alt="Image 1" class="loading-placeholder">
+    <img data-src="https://via.placeholder.com/600x400?text=Image+2" alt="Image 2" class="loading-placeholder">
+    <img data-src="https://via.placeholder.com/600x400?text=Image+3" alt="Image 3" class="loading-placeholder">
+    <img data-src="https://via.placeholder.com/600x400?text=Image+4" alt="Image 4" class="loading-placeholder">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadImages = (image) => {
+        const src = image.getAttribute('data-src');
+        if (!src) return;
+        image.src = src;
+        image.classList.remove('loading-placeholder');
+        observer.unobserve(image);
+      };
+
+      const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            loadImages(entry.target);
+          }
+        });
+      }, options);
+
+
+      const images = document.querySelectorAll('img[data-src]');
+      images.forEach(image => {
+        observer.observe(image);
+      });
+    });
+  </script>

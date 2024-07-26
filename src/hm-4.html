@@ -1,0 +1,87 @@
+<style>
+    .highlight {
+      color: orange;
+    }
+    .styled-header {
+      font-size: 24px;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+    <a href="./Index.html">Головна</a>
+  <h1 id="main-header"></h1>
+  <a name="list">Список</a>
+  <ul>
+    <li><a href="http://google.com">http://google.com</a></li>
+    <li><a href="/tutorial">/tutorial.html</a></li>
+    <li><a href="local/path">local/path</a></li>
+    <li><a href="ftp://ftp.com/my.zip">ftp://ftp.com/my.zip</a></li>
+    <li><a href="http://nodejs.org">http://nodejs.org</a></li>
+    <li><a href="http://internal.com/test">http://internal.com/test</a></li>
+  </ul>
+
+  <div>
+    <input type="text" id="text-field" placeholder="Введіть текст">
+    <button id="change-text-button">Змінити текст</button>
+  </div>
+
+  <div>
+    <h2>Зображення</h2>
+    <img id="image" src="https://via.placeholder.com/150" alt="Placeholder Image">
+  </div>
+
+  <div>
+    <a id="link" href="https://example.com">
+      <img id="link-image" src="https://via.placeholder.com/100" alt="">
+    </a>
+  </div>
+
+  <ul id="list">
+    <li>Елемент 1</li>
+    <li>Елемент 2</li>
+    <li>Елемент 3</li>
+  </ul>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const textField = document.getElementById('text-field');
+      const changeTextButton = document.getElementById('change-text-button');
+      changeTextButton.addEventListener('click', function() {
+        changeTextButton.textContent = textField.value;
+      });
+
+      const image = document.getElementById('image');
+      image.src = "https://via.placeholder.com/200";
+
+      const link = document.getElementById('link');
+      const linkImage = document.getElementById('link-image');
+      link.href = "https://new-url.com";
+      linkImage.alt = "Новий опис зображення";
+
+      const firstListItem = document.querySelector('#list li');
+      firstListItem.textContent = "Новий текст";
+
+      const allLinks = document.querySelectorAll('ul li a');
+      allLinks.forEach(link => {
+        if (link.href.startsWith('http')) {
+          link.style.color = 'orange';
+        }
+      });
+
+      if (allLinks.length > 0) {
+        allLinks[0].classList.add('highlight');
+        allLinks[allLinks.length - 1].classList.add('highlight');
+      }
+
+      const header = document.getElementById('main-header');
+      header.textContent = 'Заголовок';
+      header.classList.add('styled-header');
+
+      header.classList.remove('styled-header');
+      header.classList.add('new-header-style');
+
+      const listLink = document.querySelector('a[name="list"]');
+      console.log(listLink.classList.contains('list'));
+    });
+  </script>
