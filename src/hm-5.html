@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/5.2.0/PNotify.min.css">
+<div>
+    <p>Натисніть клавішу: <span id="key"></span></p>
+    <button id="new-game">Нова гра</button>
+</div>
+
+<canvas id="sales-chart"></canvas>
+
+<script>
+    const keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z'];
+
+let currentKeyIndex = 0;
+
+const keyElement = document.getElementById('key');
+
+function updateKey() {
+    keyElement.textContent = keys[currentKeyIndex];
+}
+
+updateKey();
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === keys[currentKeyIndex]) {
+        currentKeyIndex++;
+        if (currentKeyIndex < keys.length) {
+            updateKey();
+            PNotify.success({
+                text: 'Правильна клавіша!',
+            });
+        } else {
+            PNotify.success({
+                text: 'Гра закінчена!',
+            });
+        }
+    } else {
+        PNotify.error({
+            text: 'Неправильна клавіша!',
+        });
+    }
+});
+
+document.addEventListener('keypress', function(event) {
+    event.preventDefault();
+});
+
+document.getElementById('new-game').addEventListener('click', function() {
+    currentKeyIndex = 0;
+    updateKey();
+    PNotify.info({
+        text: 'Нова гра розпочата!',
+    });
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/5.2.0/PNotify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = {
+    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
+    datasets: [
+        {
+            label: "Продажі за останній місяць",
+            data: [150, 220, 180, 200, 250, 300, 280, 350, 400, 380, 420, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350],
+            backgroundColor: "rgba(33, 150, 243, 0.2)",
+            borderColor: "#2196f3",
+            borderWidth: 1,
+            fill: true,
+        },
+    ],
+};
+
+const config = {
+    type: 'line',
+    data: chartData,
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Дні місяця',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Продажі (у грн)',
+                }
+            }
+        }
+    },
+};
+
+const ctx = document.getElementById('sales-chart').getContext('2d');
+new Chart(ctx, config);
+</script>
